@@ -6,6 +6,13 @@ The scanner inspects the `ApiTotalUsage` event logs and lists outdated API calls
 
 ## Instructions
 
+1. Clone this repository and navigate to the project folder:
+
+   ```sh
+   git clone git@github.com:pozil/legacy-api-scanner.git
+   cd legacy-api-scanner
+   ```
+
 1. Deploy the `LegacyApiScanner` Apex class with the Salesforce CLI (or another tool of your choice):
 
    ```sh
