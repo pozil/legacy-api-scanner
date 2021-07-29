@@ -4,6 +4,8 @@ Run this scanner Apex class to identify if your Salesforce org is receiving lega
 
 The scanner inspects the `ApiTotalUsage` event logs and lists outdated API calls with their API type and versions.
 
+**ℹ️&nbsp;&nbsp;Disclaimer:** this tool is not officialy supported by Salesforce and is provided as-is without any warranties.
+
 ## Instructions
 
 1. Clone this repository and navigate to the project folder:
