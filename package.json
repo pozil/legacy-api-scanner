@@ -1,0 +1,14 @@
+{
+  "name": "legacy-api-scanner",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Salesforce App",
+  "scripts": {
+    "prettier": "prettier --write \"**/*.{cls,md}\"",
+    "prettier:verify": "prettier --list-different \"**/*.{cls,md}\""
+  },
+  "devDependencies": {
+    "prettier": "^2.3.2",
+    "prettier-plugin-apex": "^1.10.0"
+  }
+}
