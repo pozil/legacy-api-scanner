@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "description": "Salesforce App",
   "scripts": {
-    "prettier": "prettier --write \"**/*.{cls,md}\"",
-    "prettier:verify": "prettier --list-different \"**/*.{cls,md}\""
+    "prettier": "prettier --write \"**/*.{apex,md}\"",
+    "prettier:verify": "prettier --list-different \"**/*.{apex,md}\""
   },
   "devDependencies": {
     "prettier": "^2.3.2",

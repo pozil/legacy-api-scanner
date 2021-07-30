@@ -1,10 +1,13 @@
 # Legacy API Scanner
 
-Run this scanner Apex class to identify if your Salesforce org is receiving legacy SOAP, REST or Bulk API calls as defined in this [knowledge article](https://help.salesforce.com/articleView?id=000351312&type=1&mode=1&language=en_US).
+Run this anonymous Apex code to to identify if your Salesforce org is receiving legacy SOAP, REST or Bulk API calls as defined in this [knowledge article](https://help.salesforce.com/articleView?id=000351312&type=1&mode=1&language=en_US).
 
 The scanner inspects the `ApiTotalUsage` event logs and lists outdated API calls with their API type and versions.
 
-**ℹ️&nbsp;&nbsp;Disclaimer:** this tool is not officialy supported by Salesforce and is provided as-is without any warranties.
+**ℹ️&nbsp;&nbsp;Disclaimers:**
+
+- this tool is not officialy supported by Salesforce and is provided as-is without any warranties.
+- never execute anonymous Apex code that you don't trust or understand against your org. Consider reading the ~60 lines of [legacy-api-scanner.apex](legacy-api-scanner.apex).
 
 ## Instructions
 
@@ -15,17 +18,10 @@ The scanner inspects the `ApiTotalUsage` event logs and lists outdated API calls
    cd legacy-api-scanner
    ```
 
-1. Deploy the `LegacyApiScanner` Apex class with the Salesforce CLI (or another tool of your choice):
-
-   ```sh
-   sfdx force:source:deploy -m ApexClass -u <USER_NAME>
-   ```
-
-1. Run the following anonymous Apex code to run a scan:
+1. Run the anonymous Apex code to run a scan with the Salesforce CLI:
 
    ```apex
-   LegacyApiScanner scanner = new LegacyApiScanner();
-   scanner.scan();
+   sfdx force:apex:execute -f legacy-api-scanner.apex -u <YOUR_USERNAME>
    ```
 
 1. Inspect the Apex debug logs
