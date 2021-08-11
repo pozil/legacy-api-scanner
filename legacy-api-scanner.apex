@@ -25,9 +25,9 @@ void scanForLegacyApis() {
 
 List<List<String>> parseCsvFile(String csvString) {
   List<List<String>> data = new List<List<String>>();
-  List<String> rows = csvString.split('\n');
+  List<String> rows = safeSplit(csvString, '\n');
   for (String row : rows) {
-    List<String> cells = row.split(',');
+    List<String> cells = safeSplit(row, ',');
     for (Integer i = 0; i < cells.size(); i++) {
       cells[i] = cells[i].substring(1, cells[i].length() - 1);
     }
@@ -54,6 +54,24 @@ Integer getColIndexFromLabel(List<List<String>> data, String colLabel) {
     throw new ScanException('Could not find ' + colLabel + ' column');
   }
   return index;
+}
+
+List<String> safeSplit(String content, String separator) {
+  List<String> parts = new List<String>();
+  Integer contentLength = content.length();
+  Integer separatorLength = separator.length();
+  Integer startIndex = 0;
+  Integer foundIndex = 0;
+  while (foundIndex != -1 && startIndex != contentLength) {
+    foundIndex = content.indexOf(separator, startIndex);
+    if (foundIndex == -1) {
+      parts.add(content.substring(startIndex));
+    } else {
+      parts.add(content.substring(startIndex, foundIndex));
+      startIndex = foundIndex + separatorLength;
+    }
+  }
+  return parts;
 }
 
 class ScanException extends Exception {
