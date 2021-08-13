@@ -7,7 +7,8 @@ The scanner inspects the `ApiTotalUsage` event logs and lists outdated API calls
 **ℹ️&nbsp;&nbsp;Disclaimers:**
 
 - this tool is not officialy supported by Salesforce and is provided as-is without any warranties.
-- never execute anonymous Apex code that you don't trust or understand against your org. Consider reading the ~60 lines of [legacy-api-scanner.apex](legacy-api-scanner.apex).
+- never execute anonymous Apex code that you don't trust or understand against your org. Consider reading the ~90 lines of [legacy-api-scanner.apex](legacy-api-scanner.apex).
+- depending on your org's activity, you may experience `System.LimitException` errors. These are due to large log files that Apex can't process. In that case, fall back to manual log inspection with the REST API as documented in this [knowledge article](https://help.salesforce.com/articleView?id=000351312&type=1&mode=1&language=en_US)
 
 ## Instructions
 
