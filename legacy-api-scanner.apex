@@ -4,21 +4,29 @@
  */
 void scanForLegacyApis() {
   // Get EventLogFile records with EventType = 'ApiTotalUsage'
-  List<EventLogFile> logFiles = [SELECT LogFile FROM EventLogFile WHERE EventType = 'ApiTotalUsage'];
-  if (logFiles.size() == 0) {
+  Integer logCount = Database.countQuery('SELECT COUNT() FROM EventLogFile WHERE EventType = \'ApiTotalUsage\'');
+  if (logCount == 0) {
     System.debug('Found no EventLogFile entry of type ApiTotalUsage.');
     System.debug('This indicates that no legacy APIs were called during the log retention window.');
     return;
   }
 
-  // Parse CSV from log files
-  System.debug('Parsing ' + logFiles.size() + ' ApiTotalUsage EventLogFile entries...');
+  System.debug('Found ' + logCount + ' ApiTotalUsage EventLogFile entries.');
+  // Warning if too many log entries
+  if (logCount > 99) {
+    System.debug('WARNING: Because of Apex/SOQL limits, we can only parse the first 99 entries.');
+  }
+
+  // Get log files one by one to avoid heap size limit errors
   Set<String> legacyApiVersions = new Set<String>();
-  for (EventLogFile logFile : logFiles) {
+  for (Integer logIndex = 0; logIndex<99; logIndex++) {
+    EventLogFile logFile = [SELECT LogFile FROM EventLogFile WHERE EventType = 'ApiTotalUsage' ORDER BY CreatedDate LIMIT 1 OFFSET :logIndex];
+    // Parse CSV from log file
     String logCsv = logFile.LogFile.toString();
     List<List<String>> logRows = parseCsvFile(logCsv);
     legacyApiVersions.addAll(getUniqueApiVersions(logRows));
   }
+
   // Report legacy API calls
   System.debug('Found legacy API versions in logs: ' + legacyApiVersions);
 }
@@ -56,6 +64,10 @@ Integer getColIndexFromLabel(List<List<String>> data, String colLabel) {
   return index;
 }
 
+/**
+ * Using this custom split method instead of String.split() to handle
+ * large volumes of text and avoid Regex limit errors
+ */
 List<String> safeSplit(String content, String separator) {
   List<String> parts = new List<String>();
   Integer contentLength = content.length();
