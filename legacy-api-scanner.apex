@@ -15,11 +15,12 @@ void scanForLegacyApis() {
   // Warning if too many log entries
   if (logCount > 99) {
     System.debug('WARNING: Because of Apex/SOQL limits, we can only parse the first 99 entries.');
+    logCount = 99;
   }
 
   // Get log files one by one to avoid heap size limit errors
   Set<String> legacyApiVersions = new Set<String>();
-  for (Integer logIndex = 0; logIndex<99; logIndex++) {
+  for (Integer logIndex = 0; logIndex<logCount; logIndex++) {
     EventLogFile logFile = [SELECT LogFile FROM EventLogFile WHERE EventType = 'ApiTotalUsage' ORDER BY CreatedDate LIMIT 1 OFFSET :logIndex];
     // Parse CSV from log file
     String logCsv = logFile.LogFile.toString();
